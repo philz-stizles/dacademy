@@ -1,0 +1,306 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["fullTextSearch", "fullTextIndex"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  providerType       String
+  providerId         String
+  providerAccountId  String
+  refreshToken       String?
+  accessToken        String?
+  accessTokenExpires DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  userId             String @unique @db.ObjectId
+  user               User      @relation(fields: [userId], references: [id])
+
+  @@unique([providerId, providerAccountId])
+}
+
+model Session {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  expires      DateTime
+  sessionToken String   @unique
+  accessToken  String   @unique
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  userId       String @unique @db.ObjectId
+  user         User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  email          String  @unique
+  name           String?
+  hashedPassword String
+  role           Role    @default(USER)
+
+  student Student?
+  instructor Instructor?
+
+  accounts      Account[]
+  sessions      Session[]
+  messages      Message[]
+  notifications Notification[]
+  settings      Setting[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  studentId String?  @db.ObjectId
+}
+
+model VerificationRequest {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  identifier String
+  token      String   @unique
+  expires    DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([identifier, token])
+}
+
+model Student {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId String @unique @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+
+  wishlist     WishList[]
+  cart         Cart[]
+  transactions Transaction[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Instructor {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  
+  userId String @unique @db.ObjectId
+  user User @relation(fields: [userId], references: [id])
+
+  courses   Course[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Course {
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
+  
+  isPublished Boolean     @default(false)
+  title       String @unique
+  slug        String
+  link        String?
+  coverImage  String?
+  description String?
+  price       Float?
+  rating      Int?
+  author      Instructor? @relation(fields: [authorId], references: [id])
+  authorId    String      @db.ObjectId
+  category    Category?   @relation(fields: [categoryId], references: [id])
+  categoryId  String      @db.ObjectId
+
+  wsl         Wsl[]
+  chapters Chapter[]
+  attachments Attachment[]
+  transactions Transaction[]
+
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([categoryId])
+}
+
+model Wsl {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  isPublished Boolean  @default(false)
+  name        String
+  description String?
+  course      Course?  @relation(fields: [courseId], references: [id])
+  courseId    String   @db.ObjectId
+}
+
+model Attachment {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  url String
+
+  courseId String @db.ObjectId
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
+
+model Chapter {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  title String
+  description String?
+  videoUrl String?
+  position Int
+  isPublished Boolean @default(false)
+  isFree Boolean @default(false)
+
+  muxData MuxData?
+
+  courseId String @db.ObjectId
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  userProgress UserProgress[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+}
+
+
+
+model MuxData {
+  id  String   @id @default(auto()) @map("_id") @db.ObjectId
+  assetId String
+  playbackId String?
+
+  chapterId String @unique @db.ObjectId
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+}
+
+model UserProgress {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String
+
+  chapterId String @db.ObjectId
+  chapter Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+
+  isCompleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([chapterId])
+  @@unique([userId, chapterId])
+}
+
+model Category {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  isPublished   Boolean       @default(false)
+  title         String @unique
+  description   String?
+  courses       Course[]
+  subCategories SubCategory[]
+
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model SubCategory {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  isPublished Boolean   @default(false)
+  title       String
+  description String?
+  category    Category? @relation(fields: [categoryId], references: [id])
+  categoryId  String    @db.ObjectId
+}
+
+model WishList {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  studentId String  @db.ObjectId
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Cart {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  studentId String  @db.ObjectId
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String
+
+  studentId String  @db.ObjectId
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  courseId String @db.ObjectId
+  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, courseId])
+  @@index([courseId])
+}
+
+model StripeCustomer {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  userId String @unique
+  stripeCustomerId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Message {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Notification {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Setting {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  userId String @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  USER
+  AUTHOR
+  ADMIN
+}

@@ -1,0 +1,18 @@
+{
+  "name": "dacademy-web3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "truffle-config.js",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@truffle/hdwallet-provider": "^2.1.13"
+  }
+}
