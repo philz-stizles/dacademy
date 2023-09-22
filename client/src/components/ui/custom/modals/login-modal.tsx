@@ -4,8 +4,8 @@ import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import { AlertCircle, Facebook } from 'lucide-react';
-import { Button, Input } from '@/components/ui/custom';
-import { useAuthContext } from '@/context/auth-context';
+import { Button } from '@/components/ui/custom';
+import { useAuth } from '@/context/auth-context';
 
 type Props = {
   closeModal: () => void;
@@ -16,7 +16,7 @@ const LoginModal = ({ closeModal }: Props) => {
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<any>(null);
-  const { login: authLogin } = useAuthContext();
+  const { login: authLogin } = useAuth();
   const router = useRouter();
 
   const submitHandler = async (event: FormEvent<HTMLFormElement>) => {
@@ -58,7 +58,7 @@ const LoginModal = ({ closeModal }: Props) => {
             label="Continue with Facebook"
             icon={Facebook}
           />
-          <Input
+          {/* <Input
             label="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -68,7 +68,7 @@ const LoginModal = ({ closeModal }: Props) => {
             label="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          />
+          /> */}
           <Button type="submit" label="Login" disabled={isLoading} />
         </form>
         <p className="text-xs text-center py-5 border-b border-neutral-300">

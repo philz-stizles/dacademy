@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { AlertCircle } from 'lucide-react';
-import { Button, Input } from '@/components/ui/custom';
+import { Button } from '@/components/ui/custom';
 import Link from 'next/link';
 
 type Props = {
@@ -44,7 +44,7 @@ const SignupModal = ({ closeModal }: Props) => {
           </div>
         )}
         <form className="flex flex-col gap-3" onSubmit={submitHandler}>
-          <Input
+          {/* <Input
             label="Full name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
@@ -59,7 +59,7 @@ const SignupModal = ({ closeModal }: Props) => {
             label="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-          />
+          /> */}
           <Button type="submit" label="Sign up" disabled={isLoading} />
         </form>
         <p className="text-xs text-center py-5 border-b border-neutral-300">
