@@ -43,7 +43,7 @@ const createFormState = (
 };
 
 type Props = {
-  isOpen: boolean;
+  isOpen?: boolean;
   isNewPurchase: boolean;
   course: TransformedCourse;
   onSubmit: (order: any, course: TransformedCourse) => void;
@@ -51,7 +51,7 @@ type Props = {
 };
 
 const OrderModal = ({
-  isOpen,
+  isOpen = false,
   course,
   onSubmit,
   onClose,
@@ -126,7 +126,7 @@ const OrderModal = ({
                 <input
                   disabled={true}
                   // disabled={!enablePrice}
-                  value={course.price}
+                  value={course.price || 0}
                   onChange={(e) => {
                     const value = e.target.value;
                     // if (isNaN(value)) {

@@ -4,7 +4,7 @@ import Container from '../container/container';
 import { useWeb3Context } from '@/context/web3-context';
 import { useAccount } from '@/hooks/use-account';
 import Logo from '@/components/ui/custom/logo/logo';
-import { UserNav } from '@/components/ui/custom/user-nav/user-nav';
+import { UserNav } from '@/components/ui/custom';
 import { Button } from '@/components/ui/button';
 import { Bell, ShoppingBag, ShoppingBasket } from 'lucide-react';
 

@@ -9,7 +9,7 @@ import { MarketHeader } from '@/components/market';
 import { useWeb3Context } from '@/context/web3-context';
 import { useWalletInfo } from '@/hooks/use-wallet-info';
 import { Order } from '@/models/order';
-import { OrderModal } from '@/components/ui/modals';
+import { OrderModal } from '@/components/ui/custom/modals';
 import MarketLayout from '@/components/layouts/market-layout/market-layout';
 
 const MarketPlacePage = ({

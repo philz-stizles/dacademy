@@ -6,7 +6,7 @@ import {
   Message,
 } from '@/components/course';
 import { HomeLayout } from '@/components/layouts';
-import { OrderModal } from '@/components/ui/modals';
+import { OrderModal } from '@/components/ui/custom/modals';
 import { useWeb3Context } from '@/context/web3-context';
 import { useUserCourses } from '@/hooks/use-user-courses';
 import { useWalletInfo } from '@/hooks/use-wallet-info';
@@ -111,8 +111,8 @@ const CourseDetailsPage = ({
         // hasOwner={!!ownedCourse.data}
         hasOwner={false}
         title={course.title}
-        description={course.description}
-        image={course.coverImage}
+        description={course.description!}
+        image={course.coverImage!}
         onAction={() => setIsModalOpen(true)}
       />
 

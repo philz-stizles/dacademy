@@ -2,6 +2,7 @@ import { prisma } from '@/lib/prisma';
 import { COURSES } from '@/data';
 import { Course } from '@prisma/client';
 import { AuthorCourse } from '@/types/course';
+import { TransformedCourse } from '@/models/course';
 
 type Query = {
   filter?: object;
@@ -55,19 +56,18 @@ export const getAuthorCourses = async (authorId: string) => {
 };
 
 export const getCourse = async (slug?: string) => {
-  let course: Course | null = null;
+  let course: TransformedCourse | null | undefined = null;
 
   try {
-    // course = COURSES
-    //   ? COURSES.find((course) => course.slug === slug)
-    course = await prisma.course.findFirst({
-      where: { slug },
-    });
+    course = COURSES.find((course) => course.slug === slug);
+    // course = await prisma.course.findFirst({
+    //   where: { slug },
+    // });
   } catch (error: any) {
     console.error('GET COURSE: ', error);
   }
 
-  return course;
+  return course === undefined ? null : course;
 };
 
 export const getAuthorCourse = async (courseId: string) => {
