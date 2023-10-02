@@ -3,7 +3,7 @@ import { TransformedChapter } from '@/types/course';
 import { Query } from '@/utils/api';
 import { Chapter } from '@prisma/client';
 
-export const getChapters = async (query: Query) => {
+export const getChapters = async (query: Query<{}>) => {
   try {
     const categories = await prisma.category.findMany();
     return categories.map(({ createdAt, updatedAt, ...rest }) => ({
