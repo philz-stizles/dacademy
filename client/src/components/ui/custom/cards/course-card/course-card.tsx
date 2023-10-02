@@ -25,7 +25,7 @@ const CourseCard = ({
 
   return (
     // <div className="flex flex-col items-start relative max-w-lg min-w-[17rem]">
-    <Link href={`/courses/${slug}`} className="course-card">
+    <Link href={`/market-place/${slug}`} className="course-card">
       <figure className="relative">
         <Image
           src={coverImage as string}
