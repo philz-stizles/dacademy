@@ -8,11 +8,11 @@ import config from '@/utils/constants';
 
 export async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
-    return new NextResponse('Method not allowed', { status: 405 });
+    return res.status(405).json('Method not allowed');
   }
 
   const body = await req.body();
-  const signature = headers().get('Stripe-Signature') as string;
+  const signature = req.headers['Stripe-Signature'] as string;
 
   let event: Stripe.Event | null = null;
 
@@ -23,8 +23,8 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
       config.stripeHookSecret!
     );
   } catch (error: any) {
-    return new NextResponse(`Webhook Error: ${error.message}`, { status: 400 });
+    return res.status(400).json(`Webhook Error: ${error.message}`);
   }
 
-  return new NextResponse(null, { status: 200 });
+  return res.json(null);
 }
