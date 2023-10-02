@@ -1,7 +1,7 @@
 import { prisma } from '@/lib/prisma';
 import { Query } from '@/utils/api';
 
-export const getCategories = async (query: Query) => {
+export const getCategories = async (query: Query<{}>) => {
   try {
     const categories = await prisma.category.findMany();
     return categories.map(({ createdAt, updatedAt, ...rest }) => ({

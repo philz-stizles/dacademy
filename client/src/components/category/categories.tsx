@@ -30,17 +30,19 @@ const iconMap: Record<Category['title'], IconType> = {
 
 export const Categories = ({ items }: CategoriesProps) => {
   return (
-    <Container>
-      <div className="flex items-center gap-x-2 overflow-x-auto pb-2">
-        {items.map((item) => (
-          <CategoryItem
-            key={item.id}
-            label={item.title}
-            icon={iconMap[item.title]}
-            value={item.id}
-          />
-        ))}
-      </div>
-    </Container>
+    <section className="py-6">
+      <Container>
+        <div className="flex items-center gap-x-2 overflow-x-auto">
+          {items.map((item) => (
+            <CategoryItem
+              key={item.id}
+              label={item.title}
+              icon={iconMap[item.title]}
+              value={item.id}
+            />
+          ))}
+        </div>
+      </Container>
+    </section>
   );
 };

@@ -16,7 +16,6 @@ export const getCourses = async ({
     page = page ?? 1;
     const take = limit ?? 10;
     const skip = (page - 1) * take;
-    console.log(take, skip)
     const courses = await prisma.course.findMany({
       where: filter,
       include: {
@@ -60,7 +59,7 @@ export const getCourses = async ({
   }
 };
 
-export const getMyCourses = async ({ filter, page, limit }: Query) => {
+export const getMyCourses = async ({ filter, page, limit }: Query<{ isPublished: boolean}>) => {
   try {
     return getCourses({ filter, page, limit });
   } catch (error: any) {
@@ -93,7 +92,7 @@ export const getAuthorCourses = async (authorId: string) => {
 
 export const getCourse = async (slug?: string) => {
   let transformedCourse:
-    | Omit<TransformedCourse, 'wsl' | 'chapters' | 'attachments'>
+    | Omit<TransformedCourse, 'wsl' | 'chapters' | 'attachments' | 'category' | 'author'>
     | null
     | undefined = null;
 

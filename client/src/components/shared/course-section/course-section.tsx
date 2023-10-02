@@ -1,15 +1,17 @@
 import { CourseCard } from '@/components/ui/custom/cards';
 import Container from '../container/container';
 import { TransformedCourse } from '@/types/course';
+import clsx from 'clsx';
 
 type Props = {
   title: string;
   subTitle?: string;
   courses: Omit<TransformedCourse, 'wsl' | 'chapters' | 'attachments'>[];
   cols?: number;
+  className?: string;
 };
 
-const CourseSection = ({ title, subTitle, courses, cols = 3 }: Props) => {
+const CourseSection = ({ className, title, subTitle, courses, cols = 3 }: Props) => {
   const gridCols =
     cols === 2
       ? 'grid-cols-2'
@@ -20,7 +22,7 @@ const CourseSection = ({ title, subTitle, courses, cols = 3 }: Props) => {
       : 'grid-cols-3';
 
   return (
-    <section className="py-8">
+    <section className={clsx(className)}>
       <Container>
         <h3 className="font-semibold text-xl mb-3">{title}</h3>
         {subTitle && <h5>{subTitle}</h5>}

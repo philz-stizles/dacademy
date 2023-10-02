@@ -111,21 +111,7 @@ const MarketPlacePage = ({
         <SearchInput />
       </div>
       <Categories items={categories} />
-      <CourseSection
-        title="Featured Courses"
-        courses={courses.slice(0, 4)}
-        cols={4}
-      />
-      <CourseSection
-        title="Featured Courses"
-        courses={courses.slice(0, 4)}
-        cols={4}
-      />
-      <CourseSection
-        title="Featured Courses"
-        courses={courses.slice(0, 4)}
-        cols={4}
-      />
+      <CourseSection title="All Courses" courses={courses.slice(0)} cols={4} />
       {selectedCourse && (
         <OrderModal
           course={selectedCourse}

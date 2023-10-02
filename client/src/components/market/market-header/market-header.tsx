@@ -25,7 +25,6 @@ const MarkerHeader = () => {
   return (
     <>
       <WalletBar />
-      <Container></Container>
       {/* <div className="flex flex-row-reverse p-4 sm:px-6 lg:px-8">
         <BreadCrumbs isAdmin={false} items={LINKS} />
       </div> */}
