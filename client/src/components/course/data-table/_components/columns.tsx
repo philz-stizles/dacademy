@@ -13,7 +13,12 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { TransformedCourse } from '@/types/course';
 
-export const columns: ColumnDef<TransformedCourse>[] = [
+export const columns: ColumnDef<
+  Omit<
+    TransformedCourse,
+    'author' | 'wsl' | 'attachments' | 'chapters' | 'category'
+  >
+>[] = [
   {
     accessorKey: 'title',
     header: ({ column }) => {

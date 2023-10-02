@@ -8,7 +8,6 @@ import { useRouter } from 'next/router';
 import { getServerSession } from 'next-auth';
 import { getProviders } from 'next-auth/react';
 import { authOptions } from './api/auth/[[...nextauth]]';
-import { AppProviders, Provider } from 'next-auth/providers/index';
 
 export const metadata: Metadata = {
   title: 'Authentication',
