@@ -84,7 +84,10 @@ const CourseDetailsPage = ({
     [account, contract?.methods]
   );
 
-  const handlePurchase = async (order: Order, course: TransformedCourse) => {
+  const handlePurchase = async (
+    order: Order,
+    course: Omit<TransformedCourse, 'category' | 'author'>
+  ) => {
     const hexCourseId = web3?.utils.utf8ToHex(course!.id);
     const orderHash = web3?.utils.soliditySha3(
       { type: 'bytes16', value: hexCourseId! },

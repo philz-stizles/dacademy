@@ -49,7 +49,10 @@ type Props = {
     TransformedCourse,
     'attachments' | 'chapters' | 'wsl' | 'category' | 'author'
   >;
-  onSubmit: (order: any, course: TransformedCourse) => void;
+  onSubmit: (
+    order: any,
+    course: Omit<TransformedCourse, 'category' | 'author'>
+  ) => void;
   onClose: () => void;
 };
 
