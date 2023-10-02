@@ -280,95 +280,142 @@ const courses: (Omit<
     ],
     attachments: [],
   },
-  // {
-  //
-  //   type: '',
-  //   category: 'React, Angular',
-  //   title: 'React, Angular, Node In-Depth Guide: Beginner to Pro (2020)',
-  //   description:
-  //     'Beginner to Advance Web Developer Guide. Master Angular (Angular 8+), React + Redux (React 16.12+) & Node with Mongo DB!',
-  //   coverImage: 'https://thrangra.sirv.com/AngularJS.jpeg',
-  //   rating: 3,
-  //   price: 14000,
-  //   isPublished: true,
-  //   link: 'https://academy.eincode.com/courses/react-angular-node-in-depth-guide-beginner-to-pro-2020',
-  //   slug: 'react-angular-node-in-depth-guide-beginner-to-pro-2020',
-  //   wsl: [
-  //     'Develop Real-world web applications with React, Angular and Node',
-  //     'Understand the processes and architecture of Angular, React and Node',
-  //     'Create own web applications in most demanded frameworks on the market',
-  //     'Establish yourself in field of the exciting Angular, React and Node web development environment',
-  //   ],
-  //   chapters: [],
-  //   attachments: [],
-  //
-  // },
-  // {
-  //
-  //   type: '',
-  //   category: 'React JS',
-  //   title: 'React JS & Firebase Complete Course (incl. Chat Application)',
-  //   description:
-  //     "Create 'real world' React JS applications connected to Firestore (Firebase). Redux, authentication + real time features!",
-  //   coverImage: 'https://thrangra.sirv.com/ReactFirebase.jpeg',
-  //   rating: 3,
-  //   price: 14000,
-  //   isPublished: true,
-  //   link: 'https://academy.eincode.com/courses/react-js-firebase-complete-course-incl-chat-application',
-  //   slug: 'react-js-firebase-complete-course-incl-chat-application',
-  //   wsl: [
-  //     'Develop real-world web application with React JS and Firebase',
-  //     'Understand the processes and concepts of React JS 2',
-  //     'Use gained knowledge to create your own Web Applications',
-  //   ],
-  //   chapters: [],
-  //   attachments: [],
-  //
-  // },
-  // {
-  //
-  //   type: '',
-  //   category: 'Vue JS',
-  //   title: 'Vue JS 2 &  Firebase Complete Course',
-  //   description:
-  //     "Learn how to create 'real world' Vue JS 2 application connected to Firestore(Firebase) Database.",
-  //   coverImage: 'https://thrangra.sirv.com/VueFirebase.jpeg',
-  //   rating: 3,
-  //   price: 14000,
-  //   isPublished: true,
-  //   link: 'https://academy.eincode.com/courses/vue-js-2-firebase-complete-course',
-  //   slug: 'vue-js-2-firebase-complete-course',
-  //   wsl: [
-  //     'Develop real-world web application with Vue JS 2 and Firebase',
-  //     'Understand the processes and concepts of Vue JS 2',
-  //     'Use gained knowledge to create your own Web Applications',
-  //   ],
-  //   chapters: [],
-  //   attachments: [],
-  //
-  // },
-  // {
-  //
-  //   type: '',
-  //   title: 'Next.JS with Sanity CMS - Serverless Blog App (w/ Vercel)',
-  //   description:
-  //     'Build your own Blog App with the latest Next.JS & React(Next 9.4+, React hooks). Learn how to use headless Sanity CMS.',
-  //   coverImage: 'https://thrangra.sirv.com/Sanity.jpeg',
-  //   rating: 3,
-  //   price: 14000,
-  //   isPublished: true,
-  //   link: 'https://academy.eincode.com/courses/next-js-with-sanity-cms-serverless-blog-app-w-vercel',
-  //   slug: 'next-js-with-sanity-cms-serverless-blog-app-w-vercel',
-  //   wsl: [
-  //     'Use the latest Next/React features (getStaticProps, getStaticPaths, getServerSideProps)',
-  //     'Create statically generated web apps',
-  //     'Deploy Serverless Apps !',
-  //     'Integrate Sanity CMS',
-  //   ],
-  //   chapters: [],
-  //   attachments: [],
-  //
-  // },
+  {
+    type: '',
+    category: 'Mobile Development',
+    title: 'React, Angular, Node In-Depth Guide: Beginner to Pro (2020)',
+    description:
+      'Beginner to Advance Web Developer Guide. Master Angular (Angular 8+), React + Redux (React 16.12+) & Node with Mongo DB!',
+    coverImage: 'https://thrangra.sirv.com/AngularJS.jpeg',
+    rating: 3,
+    price: 14000,
+    isPublished: true,
+    link: 'https://academy.eincode.com/courses/react-angular-node-in-depth-guide-beginner-to-pro-2020',
+    slug: 'react-angular-node-in-depth-guide-beginner-to-pro-2020',
+    wsl: [
+      {
+        name: 'Develop Real-world web applications with React, Angular and Node',
+      },
+      {
+        name: 'Understand the processes and architecture of Angular, React and Node',
+      },
+      {
+        name: 'Create own web applications in most demanded frameworks on the market',
+      },
+      {
+        name: 'Establish yourself in field of the exciting Angular, React and Node web development environment',
+      },
+    ],
+    chapters: [
+      {
+        title: 'Introduction to Web3, Ethereum and the block chain',
+        position: 1,
+        isPublished: true,
+        isFree: true,
+        description:
+          '<p>Welcome to the fascinating world of Web3, Ethereum, and Blockchain technology! This chapter in our online course is designed to provide you with a comprehensive understanding of the decentralized digital landscape that is transforming industries and redefining the way we interact with the internet.</p><p>In this chapter, you will embark on a journey to uncover the core principles, technologies, and applications that form the foundation of Web3, with a specific focus on the Ethereum blockchain. Whether you\'re a seasoned developer, a business enthusiast, or simply curious about the future of the internet, this chapter will empower you with the knowledge and skills to navigate this rapidly evolving landscape.</p><p>Key Topics Covered:</p><ol><li><strong style="color: var(--tw-prose-bold);">Introduction to Web3</strong>: We\'ll start by introducing you to the concept of Web3, which represents a new paradigm in web technology. You\'ll discover how Web3 differs from its predecessor, Web2, and why it\'s often referred to as the "decentralized web."</li><li><strong style="color: var(--tw-prose-bold);">Understanding Blockchain Technology</strong>: Dive deep into the fundamental concepts of blockchain technology. Learn how decentralized ledgers work, the principles of immutability and transparency, and the role of consensus mechanisms in securing the network.</li><li><strong style="color: var(--tw-prose-bold);">Ethereum: The World Computer</strong>: Get to know Ethereum, one of the most prominent blockchain platforms. Explore its smart contract capabilities and its role in enabling decentralized applications (DApps) and decentralized finance (DeFi).</li></ol><p><br></p>',
+        videoUrl:
+          'https://utfs.io/f/4c34ad93-7e4c-4da9-8fb1-72a21c65c0a0-x9k96s.mp4',
+      },
+    ],
+    attachments: [],
+  },
+  {
+    type: '',
+    category: 'Mobile Development',
+    title: 'React JS & Firebase Complete Course (incl. Chat Application)',
+    description:
+      "Create 'real world' React JS applications connected to Firestore (Firebase). Redux, authentication + real time features!",
+    coverImage: 'https://thrangra.sirv.com/ReactFirebase.jpeg',
+    rating: 3,
+    price: 14000,
+    isPublished: true,
+    link: 'https://academy.eincode.com/courses/react-js-firebase-complete-course-incl-chat-application',
+    slug: 'react-js-firebase-complete-course-incl-chat-application',
+    wsl: [
+      { name: 'Develop real-world web application with React JS and Firebase' },
+      { name: 'Understand the processes and concepts of React JS 2' },
+      { name: 'Use gained knowledge to create your own Web Applications' },
+    ],
+    chapters: [
+      {
+        title: 'Introduction to Web3, Ethereum and the block chain',
+        position: 1,
+        isPublished: true,
+        isFree: true,
+        description:
+          '<p>Welcome to the fascinating world of Web3, Ethereum, and Blockchain technology! This chapter in our online course is designed to provide you with a comprehensive understanding of the decentralized digital landscape that is transforming industries and redefining the way we interact with the internet.</p><p>In this chapter, you will embark on a journey to uncover the core principles, technologies, and applications that form the foundation of Web3, with a specific focus on the Ethereum blockchain. Whether you\'re a seasoned developer, a business enthusiast, or simply curious about the future of the internet, this chapter will empower you with the knowledge and skills to navigate this rapidly evolving landscape.</p><p>Key Topics Covered:</p><ol><li><strong style="color: var(--tw-prose-bold);">Introduction to Web3</strong>: We\'ll start by introducing you to the concept of Web3, which represents a new paradigm in web technology. You\'ll discover how Web3 differs from its predecessor, Web2, and why it\'s often referred to as the "decentralized web."</li><li><strong style="color: var(--tw-prose-bold);">Understanding Blockchain Technology</strong>: Dive deep into the fundamental concepts of blockchain technology. Learn how decentralized ledgers work, the principles of immutability and transparency, and the role of consensus mechanisms in securing the network.</li><li><strong style="color: var(--tw-prose-bold);">Ethereum: The World Computer</strong>: Get to know Ethereum, one of the most prominent blockchain platforms. Explore its smart contract capabilities and its role in enabling decentralized applications (DApps) and decentralized finance (DeFi).</li></ol><p><br></p>',
+        videoUrl:
+          'https://utfs.io/f/4c34ad93-7e4c-4da9-8fb1-72a21c65c0a0-x9k96s.mp4',
+      },
+    ],
+    attachments: [],
+  },
+  {
+    type: '',
+    category: 'Mobile Development',
+    title: 'Vue JS 2 &  Firebase Complete Course',
+    description:
+      "Learn how to create 'real world' Vue JS 2 application connected to Firestore(Firebase) Database.",
+    coverImage: 'https://thrangra.sirv.com/VueFirebase.jpeg',
+    rating: 3,
+    price: 14000,
+    isPublished: true,
+    link: 'https://academy.eincode.com/courses/vue-js-2-firebase-complete-course',
+    slug: 'vue-js-2-firebase-complete-course',
+    wsl: [
+      { name: 'Develop real-world web application with Vue JS 2 and Firebase' },
+      { name: 'Understand the processes and concepts of Vue JS 2' },
+      { name: 'Use gained knowledge to create your own Web Applications' },
+    ],
+    chapters: [
+      {
+        title: 'Introduction to Web3, Ethereum and the block chain',
+        position: 1,
+        isPublished: true,
+        isFree: true,
+        description:
+          '<p>Welcome to the fascinating world of Web3, Ethereum, and Blockchain technology! This chapter in our online course is designed to provide you with a comprehensive understanding of the decentralized digital landscape that is transforming industries and redefining the way we interact with the internet.</p><p>In this chapter, you will embark on a journey to uncover the core principles, technologies, and applications that form the foundation of Web3, with a specific focus on the Ethereum blockchain. Whether you\'re a seasoned developer, a business enthusiast, or simply curious about the future of the internet, this chapter will empower you with the knowledge and skills to navigate this rapidly evolving landscape.</p><p>Key Topics Covered:</p><ol><li><strong style="color: var(--tw-prose-bold);">Introduction to Web3</strong>: We\'ll start by introducing you to the concept of Web3, which represents a new paradigm in web technology. You\'ll discover how Web3 differs from its predecessor, Web2, and why it\'s often referred to as the "decentralized web."</li><li><strong style="color: var(--tw-prose-bold);">Understanding Blockchain Technology</strong>: Dive deep into the fundamental concepts of blockchain technology. Learn how decentralized ledgers work, the principles of immutability and transparency, and the role of consensus mechanisms in securing the network.</li><li><strong style="color: var(--tw-prose-bold);">Ethereum: The World Computer</strong>: Get to know Ethereum, one of the most prominent blockchain platforms. Explore its smart contract capabilities and its role in enabling decentralized applications (DApps) and decentralized finance (DeFi).</li></ol><p><br></p>',
+        videoUrl:
+          'https://utfs.io/f/4c34ad93-7e4c-4da9-8fb1-72a21c65c0a0-x9k96s.mp4',
+      },
+    ],
+    attachments: [],
+  },
+  {
+    type: '',
+    title: 'Next.JS with Sanity CMS - Serverless Blog App (w/ Vercel)',
+    category: 'Mobile Development',
+    description:
+      'Build your own Blog App with the latest Next.JS & React(Next 9.4+, React hooks). Learn how to use headless Sanity CMS.',
+    coverImage: 'https://thrangra.sirv.com/Sanity.jpeg',
+    rating: 3,
+    price: 14000,
+    isPublished: true,
+    link: 'https://academy.eincode.com/courses/next-js-with-sanity-cms-serverless-blog-app-w-vercel',
+    slug: 'next-js-with-sanity-cms-serverless-blog-app-w-vercel',
+    wsl: [
+      {
+        name: 'Use the latest Next/React features (getStaticProps, getStaticPaths, getServerSideProps)',
+      },
+      { name: 'Create statically generated web apps' },
+      { name: 'Deploy Serverless Apps !' },
+      { name: 'Integrate Sanity CMS' },
+    ],
+    chapters: [
+      {
+        title: 'Introduction to Web3, Ethereum and the block chain',
+        position: 1,
+        isPublished: true,
+        isFree: true,
+        description:
+          '<p>Welcome to the fascinating world of Web3, Ethereum, and Blockchain technology! This chapter in our online course is designed to provide you with a comprehensive understanding of the decentralized digital landscape that is transforming industries and redefining the way we interact with the internet.</p><p>In this chapter, you will embark on a journey to uncover the core principles, technologies, and applications that form the foundation of Web3, with a specific focus on the Ethereum blockchain. Whether you\'re a seasoned developer, a business enthusiast, or simply curious about the future of the internet, this chapter will empower you with the knowledge and skills to navigate this rapidly evolving landscape.</p><p>Key Topics Covered:</p><ol><li><strong style="color: var(--tw-prose-bold);">Introduction to Web3</strong>: We\'ll start by introducing you to the concept of Web3, which represents a new paradigm in web technology. You\'ll discover how Web3 differs from its predecessor, Web2, and why it\'s often referred to as the "decentralized web."</li><li><strong style="color: var(--tw-prose-bold);">Understanding Blockchain Technology</strong>: Dive deep into the fundamental concepts of blockchain technology. Learn how decentralized ledgers work, the principles of immutability and transparency, and the role of consensus mechanisms in securing the network.</li><li><strong style="color: var(--tw-prose-bold);">Ethereum: The World Computer</strong>: Get to know Ethereum, one of the most prominent blockchain platforms. Explore its smart contract capabilities and its role in enabling decentralized applications (DApps) and decentralized finance (DeFi).</li></ol><p><br></p>',
+        videoUrl:
+          'https://utfs.io/f/4c34ad93-7e4c-4da9-8fb1-72a21c65c0a0-x9k96s.mp4',
+      },
+    ],
+    attachments: [],
+  },
   // {
   //
   //   type: '',

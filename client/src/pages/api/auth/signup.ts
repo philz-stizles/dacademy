@@ -25,7 +25,7 @@ const handler = async (
     case 'POST':
       const { email, password } = req.body;
 
-      const user = await AuthService.signup(email, password);
+      const user = await AuthService.signup({ email, password });
 
       return res
         .status(200)
