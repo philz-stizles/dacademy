@@ -1,7 +1,8 @@
 import { Container } from '@/components/shared';
+import { Wsl } from '@prisma/client';
 
 type Props = {
-  points: string[];
+  points: Wsl[];
 };
 
 const KeyPoints = ({ points }: Props) => {
@@ -12,7 +13,7 @@ const KeyPoints = ({ points }: Props) => {
           <div className="max-w-7xl mx-auto">
             <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-6 md:gap-y-8">
               {points.map((point, i) => (
-                <div key={point} className="relative">
+                <div key={point.id} className="relative">
                   <dt>
                     <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
                       <svg
@@ -36,7 +37,7 @@ const KeyPoints = ({ points }: Props) => {
                     </p>
                   </dt>
                   <dd className="mt-2 ml-16 text-base text-gray-500">
-                    {point}
+                    {point.name}
                   </dd>
                 </div>
               ))}

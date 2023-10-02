@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import 'react-quill/dist/quill.snow.css';
 
 type Props = {
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   value: string;
   readonly?: boolean;
 };

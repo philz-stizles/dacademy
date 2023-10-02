@@ -1,8 +1,6 @@
 import Image from 'next/image';
-import { TransformedCourse } from '@/models/course';
 import { shortenText } from '@/utils/typography';
-import { Button } from '../..';
-import { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren } from 'react';
 import Link from 'next/link';
 
 type Props = {

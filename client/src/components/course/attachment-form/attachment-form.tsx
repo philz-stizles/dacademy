@@ -1,15 +1,15 @@
 import { useState, useCallback } from 'react';
-import { Attachment } from '@prisma/client';
 import { Button } from '@/components/ui/button';
 import { File, Loader2, PlusCircle, X } from 'lucide-react';
-import { FileUpload } from '@/components/ui/custom/file-upload/file-upload';
+import { FileUpload } from '@/components/ui/custom';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import { z } from 'zod';
 import axios from 'axios';
+import { TransformedAttachment } from '@/types/course';
 
 type Props = {
-  attachments: Attachment[];
+  attachments: TransformedAttachment[];
   courseId: string;
 };
 
@@ -27,18 +27,21 @@ const AttachmentForm = ({ attachments, courseId }: Props) => {
     []
   );
 
-  const handleDelete = useCallback(async (id: string) => {
-    try {
-      setDeletingId(id);
-      await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
-      toast.success('Attachment deleted');
-      router.reload();
-    } catch (error) {
-      toast.error('Something went wrong');
-    } finally {
-      setDeletingId(null);
-    }
-  }, [courseId, router]);
+  const handleDelete = useCallback(
+    async (id: string) => {
+      try {
+        setDeletingId(id);
+        await axios.delete(`/api/courses/${courseId}/attachments/${id}`);
+        toast.success('Attachment deleted');
+        router.reload();
+      } catch (error) {
+        toast.error('Something went wrong');
+      } finally {
+        setDeletingId(null);
+      }
+    },
+    [courseId, router]
+  );
 
   const handleSubmit = useCallback(
     async (values: z.infer<typeof formSchema>) => {
@@ -49,7 +52,7 @@ const AttachmentForm = ({ attachments, courseId }: Props) => {
         router.reload();
       } catch (error) {
         toast.error('Something went wrong');
-      } 
+      }
     },
     [courseId, handleToggleEdit, router]
   );

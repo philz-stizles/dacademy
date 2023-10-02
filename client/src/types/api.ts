@@ -4,5 +4,4 @@ export type ApiResponseData<T> = {
   data?: T | null;
 };
 
-
-export type CheckoutSession = string | null
+export type CheckoutSession = string | null;

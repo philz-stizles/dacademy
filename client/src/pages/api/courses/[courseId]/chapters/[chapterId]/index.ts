@@ -1,16 +1,20 @@
 import { prisma } from '@/lib/prisma';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
+import Mux from '@mux/mux-node';
 import { ApiResponseData } from '@/types/api';
 import { Chapter } from '@prisma/client';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/pages/api/auth/[[...nextauth]]';
+import { getCurrentUser } from '@/lib/auth';
+import withErrorHandler from '@/middlewares/with-error-handler';
+import config from '@/utils/constants';
 
-export default async function handler(
+const { Video } = new Mux(config.muxAccessToken, config.muxSecretKey);
+
+const handler = async (
   req: NextApiRequest,
   res: NextApiResponse<ApiResponseData<Chapter>>
-) {
-  if (!['PUT', 'DELETE'].includes(req.method!)) {
+) => {
+  if (!['PATCH', 'DELETE'].includes(req.method!)) {
     return res
       .status(405)
       .json({ status: false, message: 'Missing required fields' });
@@ -18,12 +22,9 @@ export default async function handler(
 
   if (req.method === 'PATCH') {
     try {
-      const session = await getServerSession(req, res, authOptions);
-      if (!session) {
-        return res.status(401).json({ status: false, message: 'Unauthorized' });
-      }
+      const currentUser = await getCurrentUser(req, res);
 
-      const authorId = session?.user?.name as string;
+      const authorId = currentUser.id;
       const { isPublished, ...rest } = await req.body;
       let { courseId, chapterId } = req.query as {
         courseId: string;
@@ -58,6 +59,37 @@ export default async function handler(
         },
       });
 
+      if (rest.videoUrl) {
+        const existingMuxData = await prisma.muxData.findFirst({
+          where: {
+            chapterId,
+          },
+        });
+
+        if (existingMuxData) {
+          await Video.Assets.del(existingMuxData.assetId);
+          await prisma.muxData.delete({
+            where: {
+              id: existingMuxData.id,
+            },
+          });
+        }
+
+        const asset = await Video.Assets.create({
+          input: rest.videoUrl,
+          playback_policy: 'public',
+          test: false,
+        });
+
+        await prisma.muxData.create({
+          data: {
+            chapterId,
+            assetId: asset.id,
+            playbackId: asset.playback_ids?.[0]?.id,
+          },
+        });
+      }
+
       return res.json({
         status: true,
         data: updatedChapter,
@@ -70,63 +102,57 @@ export default async function handler(
   }
 
   if (req.method === 'DELETE') {
-    try {
-      const session = await getServerSession(req, res, authOptions);
-      if (!session) {
-        return res.status(401).json({ status: false, message: 'Unauthorized' });
-      }
+    const currentUser = await getCurrentUser(req, res);
+    const authorId = currentUser.id;
 
-      const authorId = session?.user?.name as string;
-      const { title } = await req.body;
-      let { courseId } = req.query as {
-        courseId: string;
-      };
-      if (!courseId) {
-        return res
-          .status(400)
-          .json({ status: false, message: 'Select a valid course' });
-      }
-
-      const course = await prisma.course.findUnique({
-        where: {
-          id: courseId,
-          authorId,
-        },
-      });
-
-      if (!course) {
-        return res
-          .status(404)
-          .json({ status: false, message: 'Selected course was not found' });
-      }
-
-      const lastChapter = await prisma.chapter.findFirst({
-        where: {
-          courseId,
-        },
-        orderBy: {
-          position: 'desc',
-        },
-      });
-
-      const newPosition = lastChapter ? lastChapter.position + 1 : 1;
-
-      const newChapter = await prisma.chapter.create({
-        data: {
-          title,
-          courseId,
-          position: newPosition,
-        },
-      });
-
-      return res.json({
-        status: true,
-        data: newChapter,
-        message: 'Course published successfully',
-      });
-    } catch (error: any) {
-      console.log('[CHAPTER_CREATE]', error);
-      return new NextResponse(error);
+    const { title } = await req.body;
+    let { courseId } = req.query as {
+      courseId: string;
+    };
+    if (!courseId) {
+      return res
+        .status(400)
+        .json({ status: false, message: 'Select a valid course' });
     }
+
+    const course = await prisma.course.findUnique({
+      where: {
+        id: courseId,
+        authorId,
+      },
+    });
+
+    if (!course) {
+      return res
+        .status(404)
+        .json({ status: false, message: 'Selected course was not found' });
+    }
+
+    const lastChapter = await prisma.chapter.findFirst({
+      where: {
+        courseId,
+      },
+      orderBy: {
+        position: 'desc',
+      },
+    });
+
+    const newPosition = lastChapter ? lastChapter.position + 1 : 1;
+
+    const newChapter = await prisma.chapter.create({
+      data: {
+        title,
+        courseId,
+        position: newPosition,
+      },
+    });
+
+    return res.json({
+      status: true,
+      data: newChapter,
+      message: 'Course published successfully',
+    });
   }
-}
+};
+
+export default withErrorHandler(handler);

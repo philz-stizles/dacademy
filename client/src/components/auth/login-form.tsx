@@ -4,8 +4,8 @@ import { Button } from '../ui/button';
 import { Label } from '../ui/label';
 import { Icons } from '../ui/icons';
 import { Input } from '../ui/input';
-import axios from 'axios';
-import { useAuth } from '@/context/auth-context';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   data?: {
@@ -15,16 +15,30 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 
 export function LoginForm({ className, data, ...props }: Props) {
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
   const [email, setEmail] = useState(data && data.email ? data.email : '');
   const [password, setPassword] = useState('');
-  const { login } = useAuth();
+  const router = useRouter();
+  const callbackUrl = (router.query.callbackUrl as string) ?? '/instructors/courses';
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const user = await axios.post('/api/auth/signin', { email, password });
-      login(user);
+      const response = await signIn('credentials', {
+        email,
+        password,
+        redirect: false,
+      });
+
+      console.log(response);
+
+      if (response?.error) {
+        setError(response.error);
+      } else {
+        router.push(callbackUrl);
+      }
+
       setIsLoading(false);
     } catch (error: any) {
       console.error(error);
@@ -38,9 +52,7 @@ export function LoginForm({ className, data, ...props }: Props) {
         <h1 className="text-2xl font-semibold tracking-tight">
           Sign in to your account
         </h1>
-        {/* <p className="text-sm text-muted-foreground">
-          
-        </p> */}
+        <p className="text-sm text-muted-foreground">{error}</p>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="grid gap-2">

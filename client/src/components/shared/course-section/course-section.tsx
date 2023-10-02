@@ -1,12 +1,11 @@
-import { Course } from '@prisma/client';
 import { CourseCard } from '@/components/ui/custom/cards';
 import Container from '../container/container';
-import { TransformedCourse } from '@/models/course';
+import { TransformedCourse } from '@/types/course';
 
 type Props = {
   title: string;
   subTitle?: string;
-  courses: TransformedCourse[];
+  courses: Omit<TransformedCourse, 'wsl' | 'chapters' | 'attachments'>[];
   cols?: number;
 };
 

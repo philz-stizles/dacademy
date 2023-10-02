@@ -1,12 +1,11 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import { prisma } from '@/lib/prisma';
 import type { NextApiRequest, NextApiResponse } from 'next';
-import slugify from 'slugify';
 import { NextResponse } from 'next/server';
 import { ApiResponseData } from '@/types/api';
 import { Course } from '@prisma/client';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/pages/api/auth/[[...nextauth]]';
+import { CourseService } from '@/services';
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,11 +19,11 @@ export default async function handler(
 
   try {
     const session = await getServerSession(req, res, authOptions);
-    if (!session) {
+    if (!session || !session.user) {
       return res.status(401).json({ status: false, message: 'Unauthorized' });
     }
 
-    const authorId = session?.user?.name as string;
+    const authorId = session.user.id;
 
     let { courseId } = req.query;
     courseId = courseId as string;
@@ -70,14 +69,8 @@ export default async function handler(
         .json({ status: false, message: 'Missing required fields' });
     }
 
-    const publishedCourse = await prisma.course.update({
-      where: {
-        id: courseId,
-        authorId,
-      },
-      data: {
-        isPublished: true,
-      },
+    const publishedCourse = await CourseService.update(authorId, courseId, {
+      isPublished: true,
     });
 
     return res.json({
@@ -86,7 +79,7 @@ export default async function handler(
       message: 'Course published successfully',
     });
   } catch (error: any) {
-   console.log('[COURSE_PUBLISH]', error);
+    console.log('[COURSE_PUBLISH]', error);
     return new NextResponse(error);
   }
 }

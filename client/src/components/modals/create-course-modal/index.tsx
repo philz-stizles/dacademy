@@ -17,7 +17,6 @@ const enum STEPS {
   COURSE_TYPE = 0,
   COURSE_TITLE = 1,
   COURSE_CATEGORY = 2,
-  PRICE = 3,
 }
 
 const CreateCourseModal = () => {
@@ -41,7 +40,7 @@ const CreateCourseModal = () => {
   }, [isOpen]);
 
   const handleSubmit = useCallback(async () => {
-    if (step !== STEPS.PRICE) {
+    if (step !== STEPS.COURSE_CATEGORY) {
       return handleContinue();
     }
 
@@ -50,15 +49,16 @@ const CreateCourseModal = () => {
       const course = await axios.post('/api/courses', {
         type: courseType,
         title,
-        category,
+        categoryId: category,
       });
       console.log(course);
       setIsLoading(false);
+      onClose();
     } catch (error: any) {
       console.error('CREATE COURSE', error);
       setIsLoading(false);
     }
-  }, [category, courseType, step, title]);
+  }, [category, courseType, onClose, step, title]);
 
   const handleCloseModal = () => {
     setCourseType('');
@@ -84,7 +84,7 @@ const CreateCourseModal = () => {
     2: <CourseCategory value={category} onChange={setCategory} />,
   };
 
-  const hasContinue = step !== STEPS.PRICE;
+  const hasContinue = step !== STEPS.COURSE_CATEGORY;
   const canContinue = useMemo(() => {
     return (
       (step === STEPS.COURSE_TYPE && !courseType) ||

@@ -2,40 +2,56 @@
 import { prisma } from '@/lib/prisma';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import slugify from 'slugify';
-import { NextResponse } from 'next/server';
 import { getCourses } from '@/actions/courses';
 import { ApiResponseData } from '@/types/api';
 import { Course } from '@prisma/client';
+import { getCurrentUser } from '@/lib/auth';
+import { TransformedCourse } from '@/models/course';
+import withErrorHandler from '@/middlewares/with-error-handler';
+import { FullCourse } from '@/types/course';
 
-export default async function handler(
+const handler = async (
   req: NextApiRequest,
-  res: NextApiResponse<ApiResponseData<Course>>
-) {
-  try {
+  res: NextApiResponse<ApiResponseData<Course | any[]>>
+) => {
+   
     switch (req.method) {
       case 'POST':
-        const { type, title, categoryId, description } = req.body;
+        const { type, title, categoryId } = req.body;
+        const currentUser = await getCurrentUser(req, res);
+
         const course = await prisma.course.create({
           data: {
-            authorId: '2',
+            authorId: currentUser.id,
+            type,
             title,
             categoryId,
             slug: slugify(title),
           },
         });
-        return NextResponse.json(course);
+        return res.json({
+          status: true,
+          message: 'Created successfully',
+          data: course,
+        });
       case 'GET':
         const { page, limit } = req.query;
         const currentPage = typeof page === 'number' ? page : 1;
         const take = typeof limit === 'number' ? limit : 10;
 
-        const courses = getCourses({ page: currentPage, limit: take });
-        return NextResponse.json(courses);
+        const courses = await getCourses({ page: currentPage, limit: take });
+
+        return res.json({
+          status: true,
+          message: 'Retrieved successfully',
+          data: courses,
+        });
       default:
-        break;
+        return res
+          .status(405)
+          .json({ status: false, message: 'Missing required fields' });
     }
-  } catch (error: any) {
-    console.error(error);
-    return new NextResponse(error);
-  }
+ 
 }
+
+export default withErrorHandler(handler, 'COURSES');

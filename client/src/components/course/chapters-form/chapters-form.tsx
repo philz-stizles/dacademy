@@ -15,13 +15,12 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
-
-import { Chapter } from '@prisma/client';
 import axios from 'axios';
 import ChaptersList from '../chapter-list/chapter-list';
+import { TransformedChapter } from '@/types/course';
 
 type Props = {
-  chapters: Chapter[];
+  chapters: TransformedChapter[];
   courseId: string;
 };
 
@@ -52,16 +51,23 @@ const ChaptersForm = ({ chapters, courseId }: Props) => {
       try {
         await axios.post(`/api/courses/${courseId}/chapters`, values);
         toast.success('Chapter created');
-        // toggleCreating();
+        handleToggleCreating();
         router.reload();
       } catch {
         toast.error('Something went wrong');
       }
     },
+    [courseId, handleToggleCreating, router]
+  );
+
+  const handleEdit = useCallback(
+    (id: string) => {
+      router.push(`/instructors/courses/${courseId}/chapters/${id}`);
+    },
     [courseId, router]
   );
 
-  const handleEdit = () => {};
+  const handleReOrder = useCallback((id: string) => {}, []);
 
   return (
     <div className="relative mt-6 border bg-slate-100 rounded-md p-4">
@@ -87,13 +93,13 @@ const ChaptersForm = ({ chapters, courseId }: Props) => {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-4 mt-4"
+            className="flex items-center gap-2"
           >
             <FormField
               control={form.control}
               name="title"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex-1">
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
@@ -111,21 +117,21 @@ const ChaptersForm = ({ chapters, courseId }: Props) => {
           </form>
         </Form>
       )}
-      {!isCreating && (
-        <div
-          className={cn(
-            'text-sm mt-2',
-            !chapters.length && 'text-slate-500 italic'
-          )}
-        >
-          {!chapters.length && 'No chapters'}
-          {/* <ChaptersList
-            onEdit={onEdit}
-            onReorder={onReorder}
-            items={chapters || []}
-          /> */}
-        </div>
-      )}
+
+      <div
+        className={cn(
+          'text-sm mt-2',
+          !chapters.length && 'text-slate-500 italic'
+        )}
+      >
+        {!chapters.length && 'No chapters'}
+        <ChaptersList
+          onEdit={handleEdit}
+          onReOrder={handleReOrder}
+          items={chapters || []}
+        />
+      </div>
+
       {!isCreating && (
         <p className="text-xs text-muted-foreground mt-4">
           Drag and drop to reorder the chapters

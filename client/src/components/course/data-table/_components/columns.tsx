@@ -1,4 +1,3 @@
-import { Course } from '@prisma/client';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal, Pencil } from 'lucide-react';
 import Link from 'next/link';
@@ -12,8 +11,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { TransformedCourse } from '@/types/course';
 
-export const columns: ColumnDef<Course>[] = [
+export const columns: ColumnDef<TransformedCourse>[] = [
   {
     accessorKey: 'title',
     header: ({ column }) => {
@@ -88,7 +88,7 @@ export const columns: ColumnDef<Course>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href={`/teacher/courses/${id}`}>
+            <Link href={`/instructors/courses/${id}`}>
               <DropdownMenuItem>
                 <Pencil className="h-4 w-4 mr-2" />
                 Edit

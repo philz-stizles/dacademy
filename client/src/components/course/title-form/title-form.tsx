@@ -36,7 +36,10 @@ const TitleForm = ({ title: title, courseId }: Props) => {
     defaultValues: { title },
   });
 
-  const handleToggleEdit = useCallback(() => {}, []);
+  const handleToggleEdit = useCallback(
+    () => setIsEditing((current) => !current),
+    []
+  );
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {

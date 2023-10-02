@@ -1,10 +1,14 @@
-import { Metadata } from 'next';
+import { GetServerSideProps, Metadata } from 'next';
 import { Button } from '@/components/ui/button';
 import { SignupForm } from '@/components/auth/signup-form';
 import Logo from '@/components/ui/custom/logo/logo';
 import { useEffect, useState } from 'react';
 import { LoginForm } from '@/components/auth/login-form';
 import { useRouter } from 'next/router';
+import { getServerSession } from 'next-auth';
+import { getProviders } from 'next-auth/react';
+import { authOptions } from './api/auth/[[...nextauth]]';
+import { AppProviders, Provider } from 'next-auth/providers/index';
 
 export const metadata: Metadata = {
   title: 'Authentication',
@@ -78,6 +82,27 @@ const AuthPage = () => {
       </div>
     </main>
   );
+};
+
+type Props = {
+  providers: any;
+};
+
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  const session = await getServerSession(ctx.req, ctx.res, authOptions);
+
+  // If the user is already logged in, redirect. Make sure not to redirect to the same page
+  // To avoid an infinite loop!
+  if (session) {
+    return { redirect: { destination: '/', permanent: false } };
+  }
+  const providers = await getProviders();
+
+  console.log(providers)
+
+  return {
+    props: { providers: providers ?? [] },
+  };
 };
 
 export default AuthPage;

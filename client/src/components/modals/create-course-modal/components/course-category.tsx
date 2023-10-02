@@ -7,8 +7,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { SetStateAction } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import Wrapper from './wrapper';
+import { Category } from '@prisma/client';
+import axios from 'axios';
+import useFetch from '@/hooks/use-fetch';
 
 type Props = {
   value: string;
@@ -16,6 +19,11 @@ type Props = {
 };
 
 const CourseCategory = ({ value, onChange }: Props) => {
+  const { data: categories } = useFetch<Category[]>({
+    endpoint: '/categories',
+    init: [],
+  });
+
   return (
     <Wrapper
       title="What category best fits the knowledge you'll share?"
@@ -27,11 +35,11 @@ const CourseCategory = ({ value, onChange }: Props) => {
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectItem value="apple">Apple</SelectItem>
-            <SelectItem value="banana">Banana</SelectItem>
-            <SelectItem value="blueberry">Blueberry</SelectItem>
-            <SelectItem value="grapes">Grapes</SelectItem>
-            <SelectItem value="pineapple">Pineapple</SelectItem>
+            {categories.map(({ id, title }) => (
+              <SelectItem key={id} value={id}>
+                {title}
+              </SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>

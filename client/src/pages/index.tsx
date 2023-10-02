@@ -2,10 +2,15 @@ import { getCategories } from '@/actions/categories';
 import { getCourses } from '@/actions/courses';
 import { HomeLayout } from '@/components/layouts';
 import { CourseSection } from '@/components/shared';
-import { Category } from '@/types/category';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
-import { Categories, Instructors, Jumbotron, WhoAreYou } from '@/components/home';
-import { TransformedCourse } from '@/models/course';
+import {
+  Categories,
+  Instructors,
+  Jumbotron,
+  WhoAreYou,
+} from '@/components/home';
+import { TransformedCourse } from '@/types/course';
+import { TransformedCategory } from '@/types/category';
 
 export default function Home({
   categories,
@@ -27,13 +32,13 @@ Home.getLayout = function getLayout(page: React.ReactElement) {
 };
 
 type Props = {
-  categories: Category[];
-  courses: TransformedCourse[];
+  categories: TransformedCategory[];
+  courses: Omit<TransformedCourse, 'wsl' | 'chapters' | 'attachments'>[];
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  const categories = await getCategories();
-  const courses = await getCourses({ limit: 3 });
+export const getServerSideProps: GetServerSideProps<Props> = async (_) => {
+  const categories = await getCategories({});
+  const courses = await getCourses({ filter: { isPublished: true }, limit: 3 });
 
   return {
     props: {

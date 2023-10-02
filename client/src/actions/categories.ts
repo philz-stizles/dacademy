@@ -1,8 +1,16 @@
-export const getCategories = async () => {
+import { prisma } from '@/lib/prisma';
+import { Query } from '@/utils/api';
+
+export const getCategories = async (query: Query) => {
   try {
-    return [];
+    const categories = await prisma.category.findMany();
+    return categories.map(({ createdAt, updatedAt, ...rest }) => ({
+      ...rest,
+      createdAt: createdAt.toISOString(),
+      updatedAt: updatedAt.toISOString(),
+    }));
   } catch (error: any) {
-    console.error('GET CATEGORIES: ', error)
+    console.error('GET CATEGORIES: ', error);
     return [];
   }
 };

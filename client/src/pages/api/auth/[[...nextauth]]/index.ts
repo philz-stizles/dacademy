@@ -1,4 +1,3 @@
-import bcrypt from 'bcryptjs';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GithubProvider from 'next-auth/providers/github';
 import GoogleProvider from 'next-auth/providers/google';
@@ -7,6 +6,7 @@ import NextAuth, { NextAuthOptions } from 'next-auth';
 
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { prisma } from '@/lib/prisma';
+import { AuthService } from '@/services';
 
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -35,28 +35,15 @@ export const authOptions: NextAuthOptions = {
           throw new Error('Invalid credentials');
         }
 
-        const user = await prisma.user.findUnique({
-          where: {
-            email: credentials.email,
-          },
-        });
+        const user = await AuthService.signin(
+          credentials?.email,
+          credentials?.password
+        );
 
         // If you return null or false then the credentials will be rejected
         // You can also Reject this callback with an Error or with a URL:
         // throw new Error('error message') // Redirect to error page
         // throw '/path/to/redirect'        // Redirect to a URL
-        if (!user || !user?.hashedPassword) {
-          throw new Error('Invalid credentials');
-        }
-
-        const isValid = await bcrypt.compare(
-          credentials.password,
-          user.hashedPassword
-        );
-
-        if (!isValid) {
-          throw new Error('Invalid credentials');
-        }
 
         // Any object returned will be saved in `user` property of the JWT
         return user;
@@ -64,7 +51,7 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   pages: {
-    signIn: '/login',
+    signIn: '/auth',
   },
   debug: process.env.NODE_ENV === 'development',
   session: {

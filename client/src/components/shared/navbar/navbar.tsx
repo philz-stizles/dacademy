@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { IconButton, Logo, SearchInput } from '@/components/ui/custom';
 import { UserNav } from '@/components/ui/custom';
-import { Bell, LogOut } from 'lucide-react';
+import { Bell, LogOut, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -22,8 +22,8 @@ const Navbar = () => {
           <SearchInput />
         </div>
       )}
-      <div className="flex gap-x-2 ml-auto">
-        {isTeacherPage || isCoursePage ? (
+      <div className="flex items-center gap-x-2 ml-auto">
+        {/* {isTeacherPage || isCoursePage ? (
           <Link href="/">
             <Button size="sm" variant="ghost">
               <LogOut className="h-4 w-4 mr-2" />
@@ -36,9 +36,9 @@ const Navbar = () => {
               Teacher mode
             </Button>
           </Link>
-        ) : null}
-        <IconButton icon={<Bell />} />
-        {/* <ShoppingBag /> */}
+        ) : null} */}
+        {/* <IconButton icon={<Bell />} />
+        <ShoppingBag /> */}
         <UserNav />
       </div>
     </div>

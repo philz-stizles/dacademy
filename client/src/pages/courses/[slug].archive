@@ -10,8 +10,8 @@ import { OrderModal } from '@/components/ui/custom/modals';
 import { useWeb3Context } from '@/context/web3-context';
 import { useUserCourses } from '@/hooks/use-user-courses';
 import { useWalletInfo } from '@/hooks/use-wallet-info';
-import { TransformedCourse } from '@/models/course';
 import { Order } from '@/models/order';
+import { TransformedCourse } from '@/types/course';
 import { GetStaticProps, InferGetStaticPropsType } from 'next';
 import { ReactElement, useCallback, useState } from 'react';
 
@@ -136,7 +136,7 @@ const CourseDetailsPage = ({
           {courseState === 'deactivated' && (
             <Message type="danger">
               Course has been deactivated, due the incorrect purchase data. The
-              functionality to watch the course has been temporaly disabled.
+              functionality to watch the course has been temporarily disabled.
               <i className="block font-normal">
                 Please contact info@eincode.com
               </i>
@@ -185,14 +185,19 @@ type Props = {
   course: TransformedCourse;
 };
 
-export const getStaticProps: GetStaticProps<Props> = async ({ params }) => {
-  const course = await getCourse(params?.slug as string);
+export const getStaticProps: GetStaticProps<Props> = async (ctx) => {
+  const { slug } = ctx.params as { slug: string };
+  const course = await getCourse(slug);
 
   if (!course) {
+    return {
+      notFound: true,
+    };
   }
+
   return {
     props: {
-      course: course as TransformedCourse,
+      course,
     },
   };
 };

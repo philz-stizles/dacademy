@@ -1,7 +1,7 @@
 import { Button, Modal } from '@/components/ui/custom';
 import { useEthPrice } from '@/hooks/use-eth-price';
-import { TransformedCourse } from '@/models/course';
 import { Order } from '@/models/order';
+import { TransformedCourse } from '@/types/course';
 import { useCallback, useEffect, useState } from 'react';
 
 const defaultOrder = {

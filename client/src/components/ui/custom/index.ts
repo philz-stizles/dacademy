@@ -18,4 +18,5 @@ export { default as RichText } from './rich-text/rich-text';
 export { default as Chart } from './chart/chart';
 export { default as Logo } from './logo/logo';
 export { default as UserNav } from './user-nav/user-nav';
-// export { default as FileUpload } from './file-upload/file-upload';
+export { default as Preview } from './preview/preview';
+export { default as FileUpload } from './file-upload/file-upload';

@@ -1,16 +1,18 @@
 import { getCategories } from '@/actions/categories';
 import { getCourses } from '@/actions/courses';
 import { CourseSection } from '@/components/shared';
-import { Category } from '@/types/category';
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { ReactElement, useCallback, useState } from 'react';
-import { TransformedCourse } from '@/models/course';
 import { MarketHeader } from '@/components/market';
 import { useWeb3Context } from '@/context/web3-context';
 import { useWalletInfo } from '@/hooks/use-wallet-info';
 import { Order } from '@/models/order';
 import { OrderModal } from '@/components/ui/custom/modals';
 import MarketLayout from '@/components/layouts/market-layout/market-layout';
+import { TransformedCategory } from '@/types/category';
+import { TransformedCourse } from '@/types/course';
+import { SearchInput } from '@/components/ui/custom';
+import { Categories } from '@/components/category/categories';
 
 const MarketPlacePage = ({
   categories,
@@ -105,6 +107,10 @@ const MarketPlacePage = ({
   return (
     <>
       <MarketHeader />
+      <div className="px-6 pt-6 md:hidden md:mb-0 block">
+        <SearchInput />
+      </div>
+      <Categories items={categories} />
       <CourseSection
         title="Featured Courses"
         courses={courses.slice(0, 4)}
@@ -139,14 +145,16 @@ MarketPlacePage.getLayout = function getLayout(page: ReactElement) {
   return <MarketLayout>{page}</MarketLayout>;
 };
 
-type Props = {
-  categories: Category[];
-  courses: TransformedCourse[];
+type ServerSideProps = {
+  categories: TransformedCategory[];
+  courses: Omit<TransformedCourse, 'wsl' | 'chapters' | 'attachments'>[];
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
-  const categories = await getCategories();
-  const courses = await getCourses({});
+export const getServerSideProps: GetServerSideProps<ServerSideProps> = async (
+  _
+) => {
+  const categories = await getCategories({});
+  const courses = await getCourses({ filter: { isPublished: true } });
 
   return {
     props: {

@@ -6,12 +6,12 @@ import {
   DropResult,
 } from '@hello-pangea/dnd';
 import { Grip, Pencil } from 'lucide-react';
-import { Chapter } from '@prisma/client';
 import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import { TransformedChapter } from '@/types/course';
 
 type Props = {
-  items: Chapter[];
+  items: TransformedChapter[];
   onEdit: (id: string) => void;
   onReOrder: (id: string) => void;
 };

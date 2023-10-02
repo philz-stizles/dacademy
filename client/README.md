@@ -20,11 +20,13 @@
 
 ### (2.) Web3
 
-
 ### (9.) Containerization with Docker
 
 @metamask/detect-provider
 web3
 
-
 npx prisma studio
+
+npx prisma db seed
+
+npx prisma db seed -- --environment development

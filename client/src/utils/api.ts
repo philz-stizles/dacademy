@@ -1,5 +1,11 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
+export type Query<T> = {
+  filter?: T;
+  page?: number;
+  limit?: number;
+};
+
 const allowCors =
   (fn: (req: NextApiRequest, res: NextApiResponse) => Promise<any>) =>
   async (req: NextApiRequest, res: NextApiResponse) => {

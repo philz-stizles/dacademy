@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import type { NextApiRequest, NextApiResponse } from 'next'; 
+import type { NextApiRequest, NextApiResponse } from 'next';
 import { NextResponse } from 'next/server';
 import { ApiResponseData } from '@/types/api';
 import { Course } from '@prisma/client';
@@ -18,11 +18,11 @@ export default async function handler(
 
   try {
     const session = await getServerSession(req, res, authOptions);
-    if (!session) {
+    if (!session || !session.user) {
       return res.status(401).json({ status: false, message: 'Unauthorized' });
     }
 
-    const authorId = session?.user?.name as string;
+    const authorId = session.user.id;
 
     let { courseId } = req.query;
     courseId = courseId as string;

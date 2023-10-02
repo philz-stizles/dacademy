@@ -1,14 +1,12 @@
 import { useModal } from '@/hooks/use-modal';
 import { GetServerSideProps } from 'next';
-import {
-  getAuthorCourses,
-} from '@/actions/courses';
-import { Course } from '@prisma/client';
+import { getAuthorCourses } from '@/actions/courses';
 import { DashboardLayout } from '@/components/layouts';
 import DataTable from '@/components/course/data-table/data-table';
 import { columns } from '@/components/course/data-table/_components/columns';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '@/pages/api/auth/[[...nextauth]]';
+import { TransformedCourse } from '@/types/course';
 
 const InstructorCoursesPage = ({ courses }: Props) => {
   const { onOpen } = useModal();
@@ -38,7 +36,7 @@ InstructorCoursesPage.getLayout = (page: React.ReactElement) => (
 );
 
 type Props = {
-  courses: Course[];
+  courses: TransformedCourse[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
@@ -47,7 +45,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     return {
       redirect: {
         destination: '/',
-        permanent: false
+        permanent: false,
       },
     };
   }

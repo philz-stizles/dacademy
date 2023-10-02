@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { Pencil } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 import {
   Form,
@@ -47,7 +47,7 @@ const DescriptionForm = ({ description = '', courseId }: Props) => {
       await axios.patch(`/api/courses/${courseId}`, values);
       toast.success('Course updated');
       handleToggleEdit();
-      router.refresh();
+      router.reload();
     } catch {
       toast.error('Something went wrong');
     }

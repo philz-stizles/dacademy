@@ -83,7 +83,7 @@ const Curriculum = ({ isLoading, courseState }: Props) => {
                             <>
                               {courseState === 'deactivated' && (
                                 <Link
-                                  href="/marketplace"
+                                  href="/market-place"
                                   className="text-indigo-600 hover:text-indigo-900"
                                 >
                                   Get Access

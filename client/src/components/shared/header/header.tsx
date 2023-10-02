@@ -1,5 +1,4 @@
 import clx from 'classnames';
-import { Search } from '@/components/ui/custom';
 import Container from '../container/container';
 import Navbar from '../nav/nav';
 import { useWeb3Context } from '@/context/web3-context';
@@ -7,12 +6,16 @@ import { useAccount } from '@/hooks/use-account';
 import Logo from '@/components/ui/custom/logo/logo';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
+import { UserNav } from '@/components/ui/custom';
+import { ShoppingCart } from 'lucide-react';
 
 type Props = {
   className?: string;
 };
 
 const Header = ({ className }: Props) => {
+  const { data: session } = useSession();
   const { isLoading, requiresInstall, connect } = useWeb3Context();
   const account = useAccount();
   const router = useRouter();
@@ -22,7 +25,7 @@ const Header = ({ className }: Props) => {
       <Container fluid className="flex items-center gap-8">
         <Logo />
         <Navbar />
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-12">
           {isLoading ? (
             <Button disabled={true} onClick={connect}>
               Loading...
@@ -41,9 +44,16 @@ const Header = ({ className }: Props) => {
             <Button onClick={connect}>Connect Wallet</Button>
           )}
 
-          <Button variant="link" onClick={() => router.push('/auth')}>
-            Sign up
-          </Button>
+          {session ? (
+            <div className='flex items-center gap-6'>
+              <ShoppingCart />
+              <UserNav />
+            </div>
+          ) : (
+            <Button variant="link" onClick={() => router.push('/auth')}>
+              Sign up
+            </Button>
+          )}
         </div>
       </Container>
     </header>

@@ -3,11 +3,10 @@ import axios from 'axios';
 import { Pencil, PlusCircle, ImageIcon } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
-import { Course } from '@prisma/client';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
-
 import { Button } from '@/components/ui/button';
+import { FileUpload } from '@/components/ui/custom';
 
 type Props = {
   imageUrl: string;
@@ -15,7 +14,7 @@ type Props = {
 };
 
 const formSchema = z.object({
-  imageUrl: z.string().min(1, {
+  coverImage: z.string().min(1, {
     message: 'Image is required',
   }),
 });
@@ -23,7 +22,7 @@ const formSchema = z.object({
 const ImageForm = ({ imageUrl, courseId }: Props) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const toggleEdit = () => setIsEditing((current) => !current);
+  const handleToggleEdit = () => setIsEditing((current) => !current);
 
   const router = useRouter();
 
@@ -31,8 +30,8 @@ const ImageForm = ({ imageUrl, courseId }: Props) => {
     try {
       await axios.patch(`/api/courses/${courseId}`, values);
       toast.success('Course updated');
-      toggleEdit();
-      router.refresh();
+      handleToggleEdit();
+      router.reload();
     } catch {
       toast.error('Something went wrong');
     }
@@ -42,7 +41,7 @@ const ImageForm = ({ imageUrl, courseId }: Props) => {
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
         Course image
-        <Button onClick={toggleEdit} variant="ghost">
+        <Button onClick={handleToggleEdit} variant="ghost">
           {isEditing && <>Cancel</>}
           {!isEditing && !imageUrl && (
             <>
@@ -75,14 +74,14 @@ const ImageForm = ({ imageUrl, courseId }: Props) => {
         ))}
       {isEditing && (
         <div>
-          {/* <FileUpload
+          <FileUpload
             endpoint="courseImage"
             onChange={(url) => {
               if (url) {
-                onSubmit({ imageUrl: url });
+                onSubmit({ coverImage: url });
               }
             }}
-          /> */}
+          />
           <div className="text-xs text-muted-foreground mt-4">
             16:9 aspect ratio recommended
           </div>
