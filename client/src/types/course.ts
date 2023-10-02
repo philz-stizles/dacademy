@@ -62,9 +62,9 @@ export type TransformedCourse = Omit<
 > & {
   author: Omit<TransformedUser, 'hashedPassword'>;
   category: TransformedSubCategory | null;
-  attachments: TransformedAttachment[];
-  chapters: TransformedChapter[];
-  wsl: Wsl[];
+  attachments?: TransformedAttachment[];
+  chapters?: TransformedChapter[];
+  wsl?: Wsl[];
   createdAt: string;
   updatedAt: string;
 };

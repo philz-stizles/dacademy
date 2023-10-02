@@ -14,10 +14,7 @@ import { cn } from '@/lib/utils';
 import { TransformedCourse } from '@/types/course';
 
 export const columns: ColumnDef<
-  Omit<
-    TransformedCourse,
-    'author' | 'wsl' | 'attachments' | 'chapters' | 'category'
-  >
+  Omit<TransformedCourse, 'author' | 'category'>
 >[] = [
   {
     accessorKey: 'title',

@@ -45,7 +45,10 @@ const createFormState = (
 type Props = {
   isOpen?: boolean;
   isNewPurchase: boolean;
-  course: TransformedCourse;
+  course: Omit<
+    TransformedCourse,
+    'attachments' | 'chapters' | 'wsl' | 'category' | 'author'
+  >;
   onSubmit: (order: any, course: TransformedCourse) => void;
   onClose: () => void;
 };

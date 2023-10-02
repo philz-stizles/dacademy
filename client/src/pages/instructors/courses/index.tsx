@@ -36,7 +36,7 @@ InstructorCoursesPage.getLayout = (page: React.ReactElement) => (
 );
 
 type Props = {
-  courses: Omit<TransformedCourse, 'author' | 'wsl' | 'attachments' | 'chapters' | 'category'>[];
+  courses: Omit<TransformedCourse, 'author' | 'category'>[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
