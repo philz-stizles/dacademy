@@ -33,7 +33,7 @@ Home.getLayout = function getLayout(page: React.ReactElement) {
 
 type Props = {
   categories: TransformedCategory[];
-  courses: Omit<TransformedCourse, 'wsl' | 'chapters' | 'attachments'>[];
+  courses: TransformedCourse[];
 };
 
 export const getServerSideProps: GetServerSideProps<Props> = async (_) => {

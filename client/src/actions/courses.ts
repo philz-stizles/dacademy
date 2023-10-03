@@ -11,7 +11,7 @@ export const getCourses = async ({
   filter,
   page,
   limit,
-}: Query<Pick<Course, 'isPublished' | 'title' | 'categoryId'>>) => {
+}: Query<Partial<Pick<Course, 'isPublished' | 'title' | 'categoryId'>>>) => {
   try {
     page = page ?? 1;
     const take = limit ?? 10;
