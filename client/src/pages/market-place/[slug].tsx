@@ -175,7 +175,6 @@ CourseDetailsPage.getLayout = function getLayout(page: ReactElement) {
 
 export const getStaticPaths = async () => {
   const courses = await getCourses({});
-
   return {
     paths: courses.map((course) => ({
       params: { slug: course.slug },
@@ -191,6 +190,8 @@ type StaticProps = {
 export const getStaticProps: GetStaticProps<StaticProps> = async (ctx) => {
   const { slug } = ctx.params as { slug: string };
   const course = await getCourse(slug);
+
+  console.log(course);
 
   if (!course) {
     return {

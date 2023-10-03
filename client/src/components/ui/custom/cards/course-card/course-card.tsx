@@ -31,7 +31,7 @@ const CourseCard = ({
           src={coverImage as string}
           alt="Course Cover"
           fill
-          objectFit="cover"
+          className="object-cover"
         ></Image>
       </figure>
 

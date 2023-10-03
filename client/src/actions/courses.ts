@@ -11,20 +11,45 @@ export const getCourses = async ({
   filter,
   page,
   limit,
-}: Query<Pick<Course, 'isPublished'>>) => {
+}: Query<Pick<Course, 'isPublished' | 'title' | 'categoryId'>>) => {
   try {
     page = page ?? 1;
     const take = limit ?? 10;
     const skip = (page - 1) * take;
+
+    let where: any = {};
+
+    if (filter) {
+      const { title, categoryId, isPublished } = filter;
+      if (title) {
+        where['title'] = {
+          contains: title,
+          mode: 'insensitive',
+        };
+      }
+
+      if (categoryId) {
+        where['categoryId'] = categoryId;
+      }
+
+      if (!!isPublished) {
+        where['isPublished'] = isPublished;
+      }
+    }
+
+    console.log(where);
+
     const courses = await prisma.course.findMany({
-      where: filter,
+      where,
       include: {
         author: true,
         category: true,
       },
       skip,
       take,
-      orderBy: {},
+      orderBy: {
+        createdAt: 'desc',
+      },
     });
     return courses.map(
       ({ createdAt, updatedAt, author, category, ...rest }) => {
@@ -59,7 +84,11 @@ export const getCourses = async ({
   }
 };
 
-export const getMyCourses = async ({ filter, page, limit }: Query<{ isPublished: boolean}>) => {
+export const getMyCourses = async ({
+  filter,
+  page,
+  limit,
+}: Query<Pick<Course, 'isPublished' | 'title' | 'categoryId'>>) => {
   try {
     return getCourses({ filter, page, limit });
   } catch (error: any) {
@@ -92,7 +121,10 @@ export const getAuthorCourses = async (authorId: string) => {
 
 export const getCourse = async (slug?: string) => {
   let transformedCourse:
-    | Omit<TransformedCourse, 'wsl' | 'chapters' | 'attachments' | 'category' | 'author'>
+    | Omit<
+        TransformedCourse,
+        'wsl' | 'chapters' | 'attachments' | 'category' | 'author'
+      >
     | null
     | undefined = null;
 

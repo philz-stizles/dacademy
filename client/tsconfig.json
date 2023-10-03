@@ -25,6 +25,6 @@
       "moduleResolution": "Node"
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/courses/[slug].archive", "src/pages/market-place/[slug].archive"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "src/pages/courses/[slug].archive", "src/pages/market-place/[slug].tsx"],
   "exclude": ["node_modules"]
 }

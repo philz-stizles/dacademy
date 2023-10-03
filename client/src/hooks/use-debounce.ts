@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 export const useDebounce = <T>(value: T, delay?: number): T => {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -9,7 +9,9 @@ export const useDebounce = <T>(value: T, delay?: number): T => {
     }, delay || 500);
 
     return () => {
-      timer && clearTimeout(timer);
+      if(timer) {
+        clearTimeout(timer);
+      }
     };
   }, [delay, value]);
 

@@ -111,7 +111,7 @@ const MarketPlacePage = ({
     <>
       <MarketHeader />
       <div className="px-6 pt-6 md:hidden md:mb-0 block">
-        <SearchInput />
+        {/* <SearchInput /> */}
       </div>
       <Categories items={categories} />
       <CourseSection title="All Courses" courses={courses.slice(0)} cols={4} />
@@ -140,10 +140,14 @@ type ServerSideProps = {
 };
 
 export const getServerSideProps: GetServerSideProps<ServerSideProps> = async (
-  _
+  ctx
 ) => {
+  const { title, categoryId } = ctx.query as {
+    title: string;
+    categoryId: string;
+  };
   const categories = await getCategories({});
-  const courses = await getCourses({ filter: { isPublished: true } });
+  const courses = await getCourses({ filter: { isPublished: true, title, categoryId } });
 
   return {
     props: {
