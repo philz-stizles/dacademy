@@ -1,9 +1,8 @@
-import { FullCategory } from '../src/types/category';
-import { prisma } from '../src/lib/prisma';
+import { FullCategory } from '@/types/category';
+import { prisma } from '@/lib/prisma';
 import { parseArgs } from 'node:util';
 import bcrypt from 'bcryptjs';
 import seeds from './data';
-import { Role } from '@prisma/client';
 
 const options = {
   environment: { type: 'string' },
@@ -33,7 +32,7 @@ async function main() {
   const rootUser = {
     email: 'theophilusighalo@gmail.com',
     hashedPassword: await bcrypt.hash('P@ssw0rd', 8),
-    role: Role.ADMIN,
+    // role: Role.ADMIN,
   };
 
   const user = await prisma.user.upsert({

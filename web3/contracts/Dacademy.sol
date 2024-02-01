@@ -1,13 +1,22 @@
 // SPDX-License-Identifier: MIT
 // Tells the Solidity compiler to compile only from v0.8.13 to v0.9.0
-pragma solidity ^0.8.13;
+// pragma solidity ^0.8.13;
+pragma solidity >=0.4.22 <0.9.0;
 
 contract Dacademy {
+	enum State {
+		Purchased,
+		Activated,
+		Deactivated
+	}
+
 	struct Course {
-		uint id;
-		uint price;  
-		bytes32 proof; 
-		address owner;
+		// storage values
+		uint id; // 32 // uint comprises postive(+) values only  
+		uint price; // 32
+		bytes32 proof; // 32
+		address owner; // 20
+		State state; // 1
 	} 
 
 	address payable private owner;
@@ -26,6 +35,12 @@ contract Dacademy {
 
 	/// Course already has an Owner!
   	error CourseHasOwner();
+
+	/// Sender is not Course Owner!
+	error SenderIsNotCourseOwner();
+
+	/// Only the owner of this Course can transfer ownership!
+	error OnlyOwner();
 
 	modifier onlyOwner () {
 		require(owner == msg.sender);
@@ -61,7 +76,7 @@ contract Dacademy {
   	}
 
 	function purchaseCourse(
-		bytes16 courseId,
+		bytes32 courseId,
     	bytes32 proof
 	) 
 		external 
@@ -79,8 +94,8 @@ contract Dacademy {
 			id: id,
 			price: msg.value,
 			proof: proof,
-			owner: msg.sender
-			// state: State.Purchased
+			owner: msg.sender,
+			state: State.Purchased
 		});
 
 	}
@@ -98,4 +113,28 @@ contract Dacademy {
 	{
 		return ownedCourses[courseHash].owner == msg.sender;
 	}
+
+	function getCourseCount()
+		external
+		view
+    	returns (uint)
+	{
+		return totalOwnedCourses;
+	}
+
+  function getCourseHashAtIndex(uint index)
+    external
+    view
+    returns (bytes32)
+  {
+    return ownedCourseHash[index];
+  }
+
+  function getCourseByHash(bytes32 courseHash)
+    external
+    view
+    returns (Course memory)
+  {
+    return ownedCourses[courseHash];
+  }
 }

@@ -1,18 +1,25 @@
-/** @type {import('next').NextConfig} */
+/**
+ * @type {import('next').NextConfig}
+ */
 const nextConfig = {
-  reactStrictMode: true,
   images: {
-    domains: ['thrangra.sirv.com', 'i.pravatar.cc', 'utfs.io'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'thrangra.sirv.com',
+        // port: '',
+        // pathname: '/account123/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.pravatar.cc',
+      },
+      {
+        protocol: 'https',
+        hostname: 'utfs.io',
+      },
+    ],
   },
-  // webpack: (config, options) => {
-  //   config.module.rules.push({
-  //     test: /\.(graphql|gql)/,
-  //     exclude: /node_modules/,
-  //     loader: 'graphql-tag/loader',
-  //   });
-
-  //   return config;
-  // },
 };
 
 module.exports = nextConfig;

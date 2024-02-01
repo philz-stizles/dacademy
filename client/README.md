@@ -3,9 +3,10 @@
 ## Table of Contents
 
 [(1.) Technologies](#1-technologies)
-[(1.) Rating System using React Star Ratings](#1-technologies)
-[(2.) Web3](#2-web3)
-[(9.) Containerization with Docker](#9-containerization-with-docker)
+[(2.) Authentication using NextAuth](#1-technologies)
+[(3.) Rating System using React Star Ratings](#1-technologies)
+[(4.) Web3](#2-web3)
+[(5.) Containerization with Docker](#9-containerization-with-docker)
 
 ### (1.) Technologies
 

@@ -14,14 +14,25 @@
 
 ### Technologies
 
+Frontend: React, Nextjs, Typescript, TailwindCSS, Jest
+Database: MongoDB(NoSQL)
+ORM: Prisma
 solidity extension
 tailwind CSS
+
+### Prisma
+
+npx prisma studio
+
+npx prisma db seed
+
+npx prisma db seed -- --environment development
 
 ### Ethereum Networks
 
     Private
     Testnet
-    Mainnet  
+    Mainnet
 
 ### Truffle [Read Documentation](https://trufflesuite.com/docs/truffle/)
 
@@ -59,20 +70,18 @@ Ganache is a personal blockchain for rapid Ethereum and Filecoin distributed app
 
     npm i react-toastify
 
-
 Ganache - TRUFFLE SUITE
 
 Quickly fire up a personal Ethereum blockchain which you can use to run tests, execute commands, and inspect state while controlling how the chain operates.
 
 swr
 
-
-solidity 
+solidity
 
 // int id // int comprises both positive(+) and negative(-)
 
 uint id; // 32 // uint comprises positive(+) values only  
-    uint price; // 32
+ uint price; // 32
 
     truffle uses mocha and chai internally
 
@@ -82,7 +91,7 @@ Get Sepolia Ethers => https://sepoliafaucet.com/
 
 Truffle Sepolia Config
 
-    npm i dotenv @truffle/hdwallet-provider 
+    npm i dotenv @truffle/hdwallet-provider
 
     require('dotenv').config();
 
@@ -90,7 +99,6 @@ Truffle Sepolia Config
 
     const mnemonic = process.env['MNEMONIC'];
     const infuraProjectId = process.env['INFURA_API_KEY'];
-
 
 Setting up Infura
 
