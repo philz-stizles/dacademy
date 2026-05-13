@@ -17,13 +17,7 @@ import SocialSignin from '../social-signin/social-signin';
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function SignupForm({ className, ...props }: Props) {
-  const [isLoading, setIsLoading] = useState<{
-    loading: boolean;
-    signup: string | null;
-  }>({
-    loading: false,
-    signup: null,
-  });
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -35,7 +29,7 @@ export function SignupForm({ className, ...props }: Props) {
       setError('');
       setSuccess('');
 
-      setIsLoading({ loading: true, signup: 'credentials' });
+      setIsLoading(true);
 
       const validatedFields = registerSchema.safeParse({ email, password });
       if (!validatedFields.success) {
@@ -46,7 +40,7 @@ export function SignupForm({ className, ...props }: Props) {
         'api/auth/signup',
         { email, password }
       );
-      setIsLoading({ loading: false, signup: null });
+      setIsLoading(false);
       if (response && response.data && response.data.message) {
         setSuccess(response.data.message);
       }
@@ -62,7 +56,7 @@ export function SignupForm({ className, ...props }: Props) {
       } else {
         setError(error.message);
       }
-      setIsLoading({ loading: false, signup: null });
+      setIsLoading(false);
     }
   };
 
@@ -91,7 +85,7 @@ export function SignupForm({ className, ...props }: Props) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading.loading}
+              disabled={isLoading}
             />
           </div>
           <div className="grid gap-1">
@@ -107,13 +101,13 @@ export function SignupForm({ className, ...props }: Props) {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
-              disabled={isLoading.loading}
+              disabled={isLoading}
             />
           </div>
           <Message type={MessageType.error} message={error} />
           <Message type={MessageType.success} message={success} />
-          <Button disabled={isLoading.loading}>
-            {isLoading && isLoading.signup === 'credentials' && (
+          <Button disabled={isLoading}>
+            {isLoading && (
               <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
             )}
             Create Account

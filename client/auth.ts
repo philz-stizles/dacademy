@@ -79,8 +79,8 @@ export const {
     },
   },
   pages: {
-    signIn: '/auth',
-    error: '/auth/error',
+    signIn: '/signin',
+    error: '/error',
   },
   events: {
     async linkAccount({ user }) {
